@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CollapsingNotifications</string>
+
+    <string name="title_requests">Requests</string>
+    <string name="type_a_collapsing_title">Collapsing A</string>
+    <string name="type_b_collapsing_title">Collapsing B</string>
+    <string name="type_a_collapsing_message">You have %d notifications of Type-A</string>
+    <string name="type_b_collapsing_message">You have %d notifications of Type-B</string>
+
+</resources>

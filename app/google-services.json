@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "165480026223",
+    "firebase_url": "https://collapsingnotifications.firebaseio.com",
+    "project_id": "collapsingnotifications",
+    "storage_bucket": "collapsingnotifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165480026223:android:6405e1edb814e1f8",
+        "android_client_info": {
+          "package_name": "com.fueled.collapsingnotifications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165480026223-gfhothct6mv1vt76531b3q7538jkumb5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fueled.collapsingnotifications",
+            "certificate_hash": "2cbca86b86ff900677f37f720201206815e80dc4"
+          }
+        },
+        {
+          "client_id": "165480026223-h9rqmlpih4gmgjcsjejp4jdrp3uqo8f5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEYYfcpMRU-2e_mlCIgVEUbfg0CTFDeM8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165480026223-h9rqmlpih4gmgjcsjejp4jdrp3uqo8f5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
