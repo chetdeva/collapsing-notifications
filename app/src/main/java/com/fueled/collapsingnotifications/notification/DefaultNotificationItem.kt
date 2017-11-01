@@ -1,10 +1,11 @@
 package com.fueled.collapsingnotifications.notification
 
-import android.app.PendingIntent;
-import android.content.Context;
+import android.app.PendingIntent
+import android.content.Context
 import android.media.RingtoneManager
 import com.fueled.collapsingnotifications.R
 import android.content.Intent
+import android.support.v4.app.NotificationCompat
 import android.support.v4.app.TaskStackBuilder
 import com.fueled.collapsingnotifications.MainActivity
 import com.fueled.collapsingnotifications.core.PushNotification
@@ -17,56 +18,94 @@ import com.fueled.collapsingnotifications.core.PushNotificationItem
  * @author chetansachdeva on 04/09/17
  */
 
-class DefaultNotificationItem(val context: Context,
-                              val data: Map<String, String>,
-                              val idsToCollapse: List<Int>?) : PushNotificationItem {
+open class DefaultNotificationItem(val context: Context,
+                              val data: Map<String, String>) : PushNotificationItem {
 
+    /**
+     * id of notification @{@link RemoteMessage#getMessageId()#hashCode()}
+     * used for show/hide notification
+     * @return  notification id
+     */
     override fun id() = data[PushNotification.NOTIFICATION_ID]?.toInt() ?: 0
 
+    /**
+     * id of notification @{@link RemoteMessage#getMessageId()}
+     * @return  notification message id
+     */
     override fun messageId() = data[PushNotification.NOTIFICATION_MESSAGE_ID] ?: ""
 
+    /**
+     * type of notification @{@link RemoteMessage#getCollapseKey()}
+     * @return  notification type
+     */
     override fun type() = data[PushNotification.NOTIFICATION_COLLAPSE_KEY] ?: ""
 
+    /**
+     * notification channel based on android_channel_id
+     * @return  notification channel
+     */
     override fun channel() = AppNotificationChannel.DefaultChannel()
 
+    /**
+     * title of notification based on data.title
+     * @return  notification title
+     */
     override fun title() = data[PushNotification.NOTIFICATION_TITLE] ?: context.getString(R.string.app_name)
 
+    /**
+     * message of notification based on data.body
+     * @return  notification message
+     */
     override fun message() = data[PushNotification.NOTIFICATION_BODY] ?: ""
 
-    override fun notificationsIdsToCollapse() = idsToCollapse
-
+    /**
+     * small icon of notifications
+     * @return  notification small icon
+     */
     override fun smallIcon() = R.mipmap.ic_launcher
 
+    /**
+     * sound of notification
+     * @return  notification sound
+     */
     override fun sound() = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-    override fun pendingIntent(): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-        intent.putExtra(PushNotification.NOTIFICATION_MESSAGE_ID, messageId())
-        putNotificationIds(intent)
-        val requestCode = System.currentTimeMillis().toInt()
-        return getTaskStackBuilder(intent).getPendingIntent(requestCode, PendingIntent.FLAG_UPDATE_CURRENT)
-    }
+    /**
+     * notification actions for notification buttons with PendingIntents
+     * @return  notification actions
+     */
+    override fun actions(): List<NotificationCompat.Action>? = null
 
-    private fun getTaskStackBuilder(resultIntent: Intent): TaskStackBuilder {
+    /**
+     * PendingIntent of notification for tap to redirect to Activity
+     * @return  notification PendingIntent
+     */
+    override fun pendingIntent(): PendingIntent? = null
+
+    /**
+     * Delete PendingIntent of notification for dismiss
+     * @return  notification PendingIntent
+     */
+    override fun deleteIntent(): PendingIntent? = null
+
+    /**
+     * notification ids to collapse used to
+     * 1. Clear notification ids from SharedPreferences
+     * 2. Clear notification from notification tray
+     * @return  notification ids
+     */
+    override fun notificationsIdsToCollapse(): List<Int>? = null
+
+    /**
+     * Checks if notification should collapse based on size of list of notifications to collapse
+     * @return  if notification should collapse
+     */
+    override fun shouldCollapse(): Boolean = false
+
+    protected fun getTaskStackBuilder(resultIntent: Intent): TaskStackBuilder {
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.addParentStack(MainActivity::class.java)
         stackBuilder.addNextIntent(resultIntent)
         return stackBuilder
     }
-
-    override fun deleteIntent(): PendingIntent {
-        val intent = Intent(context, NotificationDismissTracker::class.java)
-        putNotificationIds(intent)
-        return PendingIntent.getBroadcast(context, id(), intent, PendingIntent.FLAG_ONE_SHOT)
-    }
-
-    private fun putNotificationIds(intent: Intent) {
-        if (type().isNotBlank()) {
-            intent.putExtra(PushNotification.NOTIFICATION_KEY, type())
-            intent.putExtra(PushNotification.NOTIFICATION_IDS, ArrayList(idsToCollapse))
-        }
-    }
-
-    override fun shouldCollapse() = idsToCollapse?.let { it.size > 1 } ?: false
-
 }

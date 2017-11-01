@@ -2,6 +2,7 @@ package com.fueled.collapsingnotifications.core
 
 import android.app.PendingIntent
 import android.net.Uri
+import android.support.v4.app.NotificationCompat
 import com.fueled.collapsingnotifications.notification.AppNotificationChannel
 
 /**
@@ -24,15 +25,17 @@ interface PushNotificationItem {
 
     fun message(): String
 
-    fun notificationsIdsToCollapse(): List<Int>?
+    fun actions(): List<NotificationCompat.Action>?
 
     fun smallIcon(): Int
 
     fun sound(): Uri
 
-    fun pendingIntent(): PendingIntent
+    fun pendingIntent(): PendingIntent?
 
-    fun deleteIntent(): PendingIntent
+    fun deleteIntent(): PendingIntent?
+
+    fun notificationsIdsToCollapse(): List<Int>?
 
     fun shouldCollapse(): Boolean
 }

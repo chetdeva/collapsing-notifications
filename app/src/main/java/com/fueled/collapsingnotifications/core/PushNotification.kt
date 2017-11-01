@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import com.fueled.collapsingnotifications.BuildConfig
 import com.fueled.collapsingnotifications.notification.AppNotificationChannel
+import com.google.firebase.messaging.RemoteMessage
 
 interface PushNotification {
 
@@ -36,6 +37,32 @@ interface PushNotification {
 
         val NOTIFICATION_TYPE_A = "type_a"
         val NOTIFICATION_TYPE_B = "type_b"
+
+        fun getRemoteData(remoteMessage: RemoteMessage): Map<String, String> {
+            val remoteData = HashMap<String, String>()
+            if (!remoteMessage.messageId.isNullOrEmpty()) {
+                remoteData.put(PushNotification.NOTIFICATION_ID, remoteMessage.messageId.hashCode().toString())
+                remoteData.put(PushNotification.NOTIFICATION_MESSAGE_ID, remoteMessage.messageId)
+            }
+            if (!remoteMessage.collapseKey.isNullOrEmpty() &&
+                    !remoteMessage.collapseKey.equals(PushNotification.FIREBASE_APP_ID, ignoreCase = true)) {
+                remoteData.put(PushNotification.NOTIFICATION_COLLAPSE_KEY, remoteMessage.collapseKey)
+            }
+            // Check if remoteMessage contains a notification payload.
+            if (remoteMessage.notification != null) {
+                println("Message Notification: " + remoteMessage.notification.toString())
+                remoteData.put(PushNotification.NOTIFICATION_TITLE, remoteMessage.notification.title ?: "")
+                remoteData.put(PushNotification.NOTIFICATION_BODY, remoteMessage.notification.body ?: "")
+            }
+
+            if (remoteMessage.data != null && remoteMessage.data.isNotEmpty()) {
+                println("Message Data: " + remoteMessage.data.toString())
+                for ((key, value) in remoteMessage.data) {
+                    remoteData.put(key, value)
+                }
+            }
+            return remoteData
+        }
 
         fun hasNotificationIdAndCollapseKey(data: Map<String, String>): Boolean {
             return data.containsKey(NOTIFICATION_ID) &&

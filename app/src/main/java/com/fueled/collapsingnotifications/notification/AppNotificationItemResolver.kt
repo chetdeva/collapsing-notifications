@@ -16,10 +16,10 @@ class AppNotificationItemResolver : NotificationItemResolver {
 
     override fun resolve(context: Context, data: Map<String, String>, notificationsToCollapse: List<Int>?): PushNotificationItem {
         if (!data[PushNotification.NOTIFICATION_CHANNEL_ID].isNullOrBlank()) {
-            when (data.get(PushNotification.NOTIFICATION_CHANNEL_ID)) {
-                PushNotification.NOTIFICATION_CHANNEL_DEFAULT -> DefaultNotificationItem(context, data, notificationsToCollapse)
+            when (data[PushNotification.NOTIFICATION_CHANNEL_ID]) {
+                PushNotification.NOTIFICATION_CHANNEL_DEFAULT -> AppNotificationItem(context, data, notificationsToCollapse)
             }
         }
-        return DefaultNotificationItem(context, data, notificationsToCollapse)
+        return AppNotificationItem(context, data, notificationsToCollapse)
     }
 }
