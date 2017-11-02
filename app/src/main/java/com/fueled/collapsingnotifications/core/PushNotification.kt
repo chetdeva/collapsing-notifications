@@ -11,9 +11,9 @@ interface PushNotification {
 
     fun push(context: Context, data: Map<String, String>)
 
-    fun show(notificationId: Int, notification: Notification)
+    fun notify(notificationId: Int, notification: Notification)
 
-    fun hide(notificationId: Int)
+    fun cancel(notificationId: Int)
 
     fun createChannel(context: Context, channel: AppNotificationChannel)
 

@@ -23,7 +23,7 @@ open class DefaultNotificationItem(val context: Context,
 
     /**
      * id of notification @{@link RemoteMessage#getMessageId()#hashCode()}
-     * used for show/hide notification
+     * used for notify/cancel notification
      * @return  notification id
      */
     override fun id() = data[PushNotification.NOTIFICATION_ID]?.toInt() ?: 0

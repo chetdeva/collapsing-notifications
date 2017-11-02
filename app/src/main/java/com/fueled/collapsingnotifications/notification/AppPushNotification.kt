@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 /**
  * Copyright (c) 2017 Fueled. All rights reserved.
- * PushNotification interface provides methods for push(), show() and hide() notifications.
+ * PushNotification interface provides methods for push(), notify() and cancel() notifications.
  * createChannel() is important for Android O and above.
  *
  * @author chetansachdeva on 04/09/17
@@ -34,22 +34,22 @@ constructor(private val notificationManager: NotificationManager,
             createChannel(context, item.channel())
         }
         if (item.shouldCollapse()) {
-            item.notificationsIdsToCollapse()?.let { clearNotifications(it) }
+            item.notificationsIdsToCollapse()?.let { cancelAll(it) }
         }
-        show(item.id(), notificationBuilder.build(context, item))
+        notify(item.id(), notificationBuilder.build(context, item))
     }
 
-    override fun show(notificationId: Int, notification: Notification) {
+    override fun notify(notificationId: Int, notification: Notification) {
         notificationManager.notify(notificationId, notification)
     }
 
-    override fun hide(notificationId: Int) {
+    override fun cancel(notificationId: Int) {
         notificationManager.cancel(notificationId)
     }
 
-    private fun clearNotifications(notificationIds: List<Int>) {
+    private fun cancelAll(notificationIds: List<Int>) {
         for (notificationId in notificationIds) {
-            hide(notificationId)
+            cancel(notificationId)
         }
     }
 
