@@ -12,7 +12,7 @@ Collapsing Notifications implements the best practices to handle and collapse FC
 
 ## CollapsingNotificationManager
 
-[CollapsingNotificationManager](./app/src/main/java/com/fueled/collapsingnotifications/notification/CollapsingNotificationManager.kt) is one of the dependencies injected in AppPushNotification which manages collapsing of notifications.
+[CollapsingNotificationManager](./app/src/main/java/com/fueled/collapsingnotifications/notification/CollapsingNotificationManager.kt) is one of the dependencies injected in [AppPushNotification](./app/src/main/java/com/fueled/collapsingnotifications/notification/AppPushNotification.kt) which manages collapsing of notifications.
 
 <img src="./README_images/collapsing_notification_manager.png" width="600" height="274"/>
 
